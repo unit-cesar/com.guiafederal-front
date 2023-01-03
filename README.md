@@ -1,4 +1,4 @@
-# ComGuiafederalFront
+# GuiaFederal de idéias, tecnologias e fábrica de aplicativos.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
 
