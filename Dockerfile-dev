@@ -1,0 +1,23 @@
+#============
+
+FROM node:18.12.1 as angularApp
+WORKDIR /app
+ARG APP_NAME_NG
+ARG APP_TAG_NG
+ARG USER_GITHUB
+RUN echo "Cloning public repo from GitHub to WORKDIR (${USER_GITHUB}/${APP_NAME_NG}:${APP_TAG_NG})" >> ../docker-build-${APP_NAME_NG}:${APP_TAG_NG}.log
+#RUN git clone https://github.com/${USER_GITHUB}/${APP_NAME_NG}.git --branch ${APP_TAG_NG} .
+RUN git clone https://github.com/${USER_GITHUB}/${APP_NAME_NG}.git .
+RUN npm install
+RUN npm run build
+
+FROM httpd:2.4 as apacheServer
+ARG APP_NAME_NG
+COPY --from=angularApp /app/dist/${APP_NAME_NG} /usr/local/apache2/htdocs/
+EXPOSE 80
+
+#NETWORK <<<<<<<<<<<<<<
+
+RUN echo "Done!!!"  >> ../docker-build-${APP_NAME_NG}:${APP_TAG_NG}.log
+
+#===================
