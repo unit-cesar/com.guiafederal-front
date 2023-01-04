@@ -1,5 +1,11 @@
 #============
 
+# Run these commands to build:
+# APP_TAG_NG="v0.0.1-dev"
+# USER_GITHUB="unit-cesar"
+# APP_NAME_NG="com.guiafederal-front"
+# docker build --file Dockerfile-dev --build-arg APP_NAME_NG=$APP_NAME_NG --build-arg APP_TAG_NG=$APP_TAG_NG --build-arg USER_GITHUB=$USER_GITHUB --tag i_${APP_NAME_NG}:${APP_TAG_NG} .
+
 FROM node:18.12.1 as angularApp
 WORKDIR /app
 ARG APP_NAME_NG
@@ -9,10 +15,10 @@ RUN echo "Cloning public repo from GitHub to WORKDIR (${USER_GITHUB}/${APP_NAME_
 #RUN git clone https://github.com/${USER_GITHUB}/${APP_NAME_NG}.git --branch ${APP_TAG_NG} .
 RUN git clone https://github.com/${USER_GITHUB}/${APP_NAME_NG}.git .
 RUN npm install
-ENTRYPOINT npm run build
+RUN npm run build
 
-#example of the network
-#https://docs.docker.com/engine/reference/builder/#run---network
+# example of the network
+# https://docs.docker.com/engine/reference/builder/#run---network
 # RUN --network=none pip install --find-links wheels mypackage
 
 FROM httpd:2.4 as apacheServer
