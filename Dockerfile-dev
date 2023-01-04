@@ -9,7 +9,11 @@ RUN echo "Cloning public repo from GitHub to WORKDIR (${USER_GITHUB}/${APP_NAME_
 #RUN git clone https://github.com/${USER_GITHUB}/${APP_NAME_NG}.git --branch ${APP_TAG_NG} .
 RUN git clone https://github.com/${USER_GITHUB}/${APP_NAME_NG}.git .
 RUN npm install
-RUN npm run build
+ENTRYPOINT npm run build
+
+#example of the network
+#https://docs.docker.com/engine/reference/builder/#run---network
+# RUN --network=none pip install --find-links wheels mypackage
 
 FROM httpd:2.4 as apacheServer
 ARG APP_NAME_NG
